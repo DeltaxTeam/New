@@ -1,0 +1,58 @@
+-- Create a ScreenGui to hold our UI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Create the UI elements
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0.5, 0, 0.5, 0)
+Frame.Position = UDim2.new(0.25, 0, 0.25, 0)
+Frame.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5)
+Frame.Parent = ScreenGui
+
+local UsernameLabel = Instance.new("TextLabel")
+UsernameLabel.Text = "Player Username:"
+UsernameLabel.Size = UDim2.new(0.5, 0, 0.1, 0)
+UsernameLabel.Position = UDim2.new(0.25, 0, 0.1, 0)
+UsernameLabel.Parent = Frame
+
+local UsernameTextBox = Instance.new("TextBox")
+UsernameTextBox.Size = UDim2.new(0.5, 0, 0.1, 0)
+UsernameTextBox.Position = UDim2.new(0.25, 0, 0.2, 0)
+UsernameTextBox.Parent = Frame
+
+local BanExplanationLabel = Instance.new("TextLabel")
+BanExplanationLabel.Text = "Ban Explanation:"
+BanExplanationLabel.Size = UDim2.new(0.5, 0, 0.1, 0)
+BanExplanationLabel.Position = UDim2.new(0.25, 0, 0.35, 0)
+BanExplanationLabel.Parent = Frame
+
+local BanExplanationTextBox = Instance.new("TextBox")
+BanExplanationTextBox.Size = UDim2.new(0.5, 0, 0.2, 0)
+BanExplanationTextBox.Position = UDim2.new(0.25, 0, 0.45, 0)
+BanExplanationTextBox.Parent = Frame
+
+local BanButton = Instance.new("TextButton")
+BanButton.Text = "Ban Player"
+BanButton.Size = UDim2.new(0.3, 0, 0.1, 0)
+BanButton.Position = UDim2.new(0.35, 0, 0.7, 0)
+BanButton.Parent = Frame
+
+-- Function to handle banning a player
+local function BanPlayer()
+    local playerUsername = UsernameTextBox.Text
+    local banExplanation = BanExplanationTextBox.Text
+    
+    -- Check if the player exists
+    local player = game.Players:FindFirstChild(playerUsername)
+    if player then
+        -- Ban the player
+        -- You can implement your ban logic here
+        print("Banning player:", playerUsername)
+        print("Ban Explanation:", banExplanation)
+    else
+        print("playerUsername not found in server.Enter correct UserName in server For Kick)
+    end
+end
+
+-- Connect the BanPlayer function to the button click event
+BanButton.MouseButton1Click:Connect(BanPlayer)
