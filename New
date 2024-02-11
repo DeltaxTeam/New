@@ -1,58 +1,43 @@
--- Create a ScreenGui to hold our UI
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+-- Get references to GUI objects
+local frame = script.Parent
+local usernameTextBox = frame.UsernameTextBox
+local banExplanationTextBox = frame.BanExplanationTextBox
+local banButton = frame.BanButton
+local smallScreen = frame.SmallScreen
 
--- Create the UI elements
-local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0.5, 0, 0.5, 0)
-Frame.Position = UDim2.new(0.25, 0, 0.25, 0)
-Frame.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5)
-Frame.Parent = ScreenGui
+-- Show small screen
+smallScreen.Visible = true
 
-local UsernameLabel = Instance.new("TextLabel")
-UsernameLabel.Text = "Player Username:"
-UsernameLabel.Size = UDim2.new(0.5, 0, 0.1, 0)
-UsernameLabel.Position = UDim2.new(0.25, 0, 0.1, 0)
-UsernameLabel.Parent = Frame
+-- Function to ban a player by username with a ban explanation
+local function banPlayer()
+    -- Get the username and ban explanation from the text boxes
+    local username = usernameTextBox.Text
+    local banExplanation = banExplanationTextBox.Text
 
-local UsernameTextBox = Instance.new("TextBox")
-UsernameTextBox.Size = UDim2.new(0.5, 0, 0.1, 0)
-UsernameTextBox.Position = UDim2.new(0.25, 0, 0.2, 0)
-UsernameTextBox.Parent = Frame
-
-local BanExplanationLabel = Instance.new("TextLabel")
-BanExplanationLabel.Text = "Ban Explanation:"
-BanExplanationLabel.Size = UDim2.new(0.5, 0, 0.1, 0)
-BanExplanationLabel.Position = UDim2.new(0.25, 0, 0.35, 0)
-BanExplanationLabel.Parent = Frame
-
-local BanExplanationTextBox = Instance.new("TextBox")
-BanExplanationTextBox.Size = UDim2.new(0.5, 0, 0.2, 0)
-BanExplanationTextBox.Position = UDim2.new(0.25, 0, 0.45, 0)
-BanExplanationTextBox.Parent = Frame
-
-local BanButton = Instance.new("TextButton")
-BanButton.Text = "Ban Player"
-BanButton.Size = UDim2.new(0.3, 0, 0.1, 0)
-BanButton.Position = UDim2.new(0.35, 0, 0.7, 0)
-BanButton.Parent = Frame
-
--- Function to handle banning a player
-local function BanPlayer()
-    local playerUsername = UsernameTextBox.Text
-    local banExplanation = BanExplanationTextBox.Text
-    
-    -- Check if the player exists
-    local player = game.Players:FindFirstChild(playerUsername)
+    -- Find the player by username
+    local player = game.Players:FindFirstChild(username)
     if player then
-        -- Ban the player
-        -- You can implement your ban logic here
-        print("Banning player:", playerUsername)
-        print("Ban Explanation:", banExplanation)
+        -- Show the ban screen
+        local banScreen = Instance.new("ScreenGui")
+        banScreen.Parent = game.Players.LocalPlayer.PlayerGui
+
+        local banFrame = Instance.new("Frame")
+        banFrame.Size = UDim2.new(0.5, 0, 0.5, 0)
+        banFrame.Position = UDim2.new(0.25, 0, 0.25, 0)
+        banFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        banFrame.Parent = banScreen
+
+        local banExplanationLabel = Instance.new("TextLabel")
+        banExplanationLabel.Size = UDim2.new(0.9, 0, 0.8, 0)
+        banExplanationLabel.Position = UDim2.new(0.05, 0, 0.1, 0)
+        banExplanationLabel.Text = "Ban Explanation:\n" .. banExplanation
+        banExplanationLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+        banExplanationLabel.TextScaled = true
+        banExplanationLabel.Parent = banFrame
     else
-        print("playerUsername not found in server.Enter correct UserName in server For Kick)
+        print("Player with username '" .. username .. "' not found.")
     end
 end
 
--- Connect the BanPlayer function to the button click event
-BanButton.MouseButton1Click:Connect(BanPlayer)
+-- Connect the banPlayer function to the button click event
+banButton.MouseButton1Click:Connect(banPlayer)
